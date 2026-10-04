@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Princeton Challenge</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0; min-height: 100vh; display: grid; place-items: center;
+  padding: 24px; font-family: Arial, sans-serif; background: #111; color: white;
+}
+.card {
+  width: min(680px, 100%); background: #1d1d1d; border: 3px solid #f5a623;
+  border-radius: 18px; padding: 34px; text-align: center;
+}
+.label { color:#f5a623; font-weight:800; letter-spacing:2px; font-size:14px; }
+h1 { font-size:34px; margin:10px 0 24px; }
+.riddle {
+  background:#292929; border-radius:12px; padding:28px 20px;
+  font-size:24px; line-height:1.45; margin-bottom:24px;
+}
+input {
+  width:100%; padding:16px; border:2px solid #555; border-radius:10px;
+  background:#111; color:white; font-size:18px; outline:none;
+}
+input:focus { border-color:#f5a623; }
+button {
+  width:100%; margin-top:12px; padding:16px; border:0; border-radius:10px;
+  background:#f5a623; color:#111; font-size:18px; font-weight:800; cursor:pointer;
+}
+button:disabled, input:disabled { opacity:.5; cursor:not-allowed; }
+#result { display:none; margin-top:22px; padding:18px; border-radius:10px; font-size:21px; font-weight:800; }
+.correct { display:block !important; background:#174d2a; }
+.wrong { display:block !important; background:#5a2020; }
+#locked { margin-top:14px; color:#bbb; font-size:14px; }
+</style>
+</head>
+<body>
+<main class="card">
+  <div class="label">Princeton Challenge</div>
+  <h1>Riddle</h1>
+  <div class="riddle">What is full of holes but still holds water?</div>
+
+  <form id="answerForm">
+    <input id="answer" type="text" autocomplete="off" placeholder="Enter your answer..." required>
+    <button id="submitBtn" type="submit">SUBMIT ANSWER</button>
+  </form>
+
+  <div id="result"></div>
+  <div id="locked"></div>
+</main>
+
+<script>
+// The answer is intentionally stored in the code so the page can check it.
+// Only one submission is allowed.
+const correctAnswer = "sponge";
+
+const form = document.getElementById("answerForm");
+const input = document.getElementById("answer");
+const button = document.getElementById("submitBtn");
+const result = document.getElementById("result");
+const locked = document.getElementById("locked");
+
+let submitted = false;
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  if (submitted) return;
+
+  submitted = true;
+  const answer = input.value.trim().toLowerCase();
+
+  input.disabled = true;
+  button.disabled = true;
+
+  if (answer === correctAnswer) {
+    result.textContent = "✓ CORRECT!";
+    result.className = "correct";
+    locked.textContent = "Challenge completed.";
+  } else {
+    result.textContent = "✕ INCORRECT";
+    result.className = "wrong";
+    locked.textContent = "Your one attempt has been used.";
+  }
+});
+</script>
+</body>
+</html>
